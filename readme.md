@@ -1,1 +1,2 @@
-# IS218_midterm
+# IS218 Midterm 
+# Sharon Oh 
