@@ -1,23 +1,46 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod 
 
 class Command(ABC):
-    @abstractmethod
+    @abstractmethod 
     def execute(self):
-        pass
+        pass 
 
-class CommandHandler:
-    def __init__(self):
-        self.commands = {}
+class AddCommand():
+    def __init__(self, num1, num2):
+        self.num1 = num1 
+        self.num2 = num2
 
-    def register_command(self, command_name: str, command: Command):
-        self.commands[command_name] = command
+    def execute(self):
+        return self.num1 + self.num2 
     
-    def execute_command(self, command_name: str, *args):
-        try:
-            if command_name in self.commands:
-                if len(args) == 0:
-                    self.commands[command_name].execute()
-                else:
-                    self.commands[command_name].execute(args)
-        except KeyError:
-            print(f"No such command: {command_name}")
+    
+class SubtractCommand():
+    def __init__(self, num1, num2):
+        self.num1 = num1 
+        self.num2 = num2
+
+    def execute(self):
+        return self.num1 - self.num2 
+    
+    
+class MultiplyCommand():
+    def __init__(self, num1, num2):
+        self.num1 = num1 
+        self.num2 = num2
+
+    def execute(self):
+        return self.num1 * self.num2 
+    
+    
+class DivideCommand():
+    def __init__(self, num1, num2):
+        self.num1 = num1 
+        self.num2 = num2
+
+    def execute(self):
+        return self.num1/self.num2 
+    
+
+class GreetCommand():
+    def __init__(self)
+        

@@ -1,0 +1,4 @@
+#when user exits the program, everything saves in the history 
+#create new plugin called, for users to check their history 
+#pandas loads and saves to csv file 
+#you put the code in another file --> have it read from the history.csv file 

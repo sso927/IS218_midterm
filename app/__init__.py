@@ -1,7 +1,9 @@
 import pkgutil
 import importlib
-from app.commands import CommandHandler
-from app.commands import Command
+from app.commands import AddCommand
+from app.commands import SubtractCommand
+from app.commands import MultiplyCommand
+from app.commands import DivideCommand
 
 from dotenv import load_dotenv
 import logging
@@ -23,7 +25,7 @@ class App: #all of the environment variable things
             logging.config.fileConfig(logging_conf_path, disable_existing_loggers = False)
         else:
             logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-        logging.info("Logging configured.")
+        logging.info("Logging configured.") #you can change the log message 
 
     def load_environment_variables(self):
         settings = {key: value for key, value in os.environ.items()}
@@ -31,21 +33,27 @@ class App: #all of the environment variable things
        
         secret_key = os.getenv('SECRET_KEY')
         database_username = os.getenv('DATABASE_USERNAME')
+        mode = os.getenv('testing')
+            if mode == 'testing':
+            #blah blah 
 
-        print(f"Secret Key: {secret_key}")
+        print(f"Secret Key: {secret_key}") #you can change the log message 
         print(f"Database Username: {database_username}")
 
         return settings 
     
+    #mode = testing
+    
+    #keep this function 
     def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
         return self.settings.get(env_var, None)
 
     def load_plugins(self):
-        plugins_package = 'app.plugins'
+        plugins_package = 'app.plugins' #can change the name if you want 
         for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_package.replace('.', '/')]):
             if is_pkg: 
                 plugin_module = importlib.import_module(f'{plugins_package}.{plugin_name}')
-                logging.info('Plugins have been loaded.')
+                logging.info('Plugins have been loaded.') #change log messages 
 
                 for item_name in dir(plugin_module):
                     item = getattr(plugin_module, item_name)
@@ -54,8 +62,10 @@ class App: #all of the environment variable things
                             self.command_handler.register_command(plugin_name, item())
                     except TypeError:
                         continue   
+#know how to use the code/understand 
+#add in your own plugins 
+#if you can't change your code, don't know, you can play around with the code and structure (as long as you meet the requirements + commits) 
 
-                
     def register_plugin_commands(self, plugin_module, plugin_name):
         for item_name in dir(plugin_module):
             item = getattr(plugin_module, item_name)
@@ -63,35 +73,37 @@ class App: #all of the environment variable things
                 self.command_handler.register_command(plugin_name, item())
                 logging.info(f"Command '{plugin_name}' from plugin '{plugin_name}' registered.")
 
+
+#new code... similar logic different code 
     def start(self):
         self.load_plugins()
-        print("Type 'exit' to exit. Format math commands as: <number1> <number2> <add>/<subtract>/<multiply>/<divide>.")
+        print("Type 'exit' to exit the program. Format the commands as: <number1> <number2> <command>. \nPossible commands are: 'greet', 'exit', 'add', 'subtract', 'multiply', 'divide'.")
+        logging.info('Program has started.')
+        
         while True:  
-            command_input = input(">>> ").strip()
-            if command_input.lower() == 'exit':
-                logging.info('Exit command registered.')
-                raise SystemExit('Exiting...')
-    
-            user_input = command_input.split()
+            whole_input = input(">>> ").strip()
+            input_parts = whole_input.split()
 
-            if len(user_input) == 3: 
-                userCommand = user_input[2]
-                numbers = user_input[:2]
+            if len(input_parts) == 3:
+                input_numbers = input_parts[:2]
+                input_functionCommand = input_parts[2]
 
-                if userCommand not in ['add', 'subtract', 'multiply', 'divide']:
-                    print(f'User did not input valid command.')
-                    logging.error('Invalid command.')
-                    continue
+                if input_functionCommand.lower() == ['add', 'subtract', 'multiply', 'divide']:
+                    self.command_handler.execute_command(input_functionCommand, *input_numbers)
+                else:
+                    print(f'User did not input a valid command. Try again.')
+                    logging.error('Invalid arithemetic command.')
+                continue 
+            
+            if len(input_parts) == 1:
+                input_command = input_parts[0]
 
-                self.command_handler.execute_command(userCommand, *numbers)
-                continue
+                if input_command.lower() not in ['greet', 'exit', 'add', 'subtract', 'multiply', 'divide']:
+                    print(f"There is no such command as: {input_command}.")
+                    logging.error('User has inputted an unknown command.')
+                else:
+                    self.command_handler.execute_command(input_functionCommand)
 
-            else:
-                userCommand = user_input[0]
-
-                if userCommand not in ['menu', 'greet', 'exit', 'add', 'subtract', 'multiply', 'divide']:
-                     print(f"No such command: {command_input}")
-                     logging.error('Unknown command.')
-                     continue 
-
-            self.command_handler.execute_command(userCommand)
+                if input_command.lower() == 'exit':
+                    logging.info('System will exit.')
+                    raise SystemExit('Exiting.')
