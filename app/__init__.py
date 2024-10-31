@@ -82,7 +82,14 @@ class App:
                     if input_functionCommand in ['add', 'subtract', 'multiply', 'divide']:
                         result = getattr(calc, input_functionCommand)(num1, num2)
                         print('The result is ',result)
-                        logging.info("Function performed properly. Yay!")
+                        if input_functionCommand == 'add':
+                            logging.info("Addition Command performed properly. Yay!")
+                        elif input_functionCommand == 'subtract':
+                            logging.info("Subtraction Command performed properly. Yay!")
+                        elif input_functionCommand == 'multiply':
+                            logging.info("Multiply Command performed properly. Yay!")
+                        elif input_functionCommand == 'divide':
+                            logging.info("Divide Command performed properly. Yay!")
                     else:
                         print(f'User did not input a valid command. Try again.')
                         logging.error('Invalid arithemetic command.')

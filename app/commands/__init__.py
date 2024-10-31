@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod 
+import logging 
+import logging.config
 #contains defintion of the command classes to specific operations 
 
 class Command(ABC):
@@ -31,9 +33,9 @@ class MultiplyCommand():
 
     def execute(self):
         if not isinstance(self.num1, (int,float)):
-            raise TypeError('The operands must be numbers.')
+            raise TypeError()
         if not isinstance(self.num2, (int, float)):
-            raise TypeError('The operands must be numbers.')
+            raise TypeError()
         return self.num1 * self.num2 
     
     
@@ -44,7 +46,7 @@ class DivideCommand():
 
     def execute(self):
         if self.num2 == 0 :
-            raise ZeroDivisionError("cannot divide by zero...try again!")
+            raise ZeroDivisionError()
         return self.num1/self.num2 
     
 

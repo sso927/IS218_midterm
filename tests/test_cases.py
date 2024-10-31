@@ -61,12 +61,12 @@ def test_case1_multiply_command():
 
 def test_case2_multiply_command():
     command = MultiplyCommand(10, 'b')
-    with pytest.raises(TypeError, match= 'The operands must be numbers.'):
+    with pytest.raises(TypeError):
         command.execute()
 
 def test_case3_multiply_command():
     command = MultiplyCommand('b', 10)
-    with pytest.raises(TypeError, match= 'The operands must be numbers.'):
+    with pytest.raises(TypeError):
         command.execute()
 
 def test_case1_divide_command():
@@ -85,7 +85,7 @@ def test_case3_divide_command():
          command.execute()
 
 def test_case_dividebyzero_command():
-    with pytest.raises(ZeroDivisionError, match="cannot divide by zero...try again!"):
+    with pytest.raises(ZeroDivisionError):
         command = DivideCommand(10,0)
         command.execute()
     
