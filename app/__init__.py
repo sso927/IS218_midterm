@@ -14,12 +14,10 @@ import os
 
 class App:   
     def __init__(self): 
-        self.command_handler = Calculator()
         os.makedirs('logs', exist_ok = True)
         self.configure_logging()
-        load_dotenv()
         self.settings = self.load_environment_variables()
-        self.settings.setdefault('SECRET_KEY', 'DATABASE_USERNAME')
+        self.settings.setdefault('DATABASE_USERNAME','PASS_KEY')
 
     def configure_logging(self):
         logging_conf_path = 'logging.conf'
@@ -27,28 +25,31 @@ class App:
             logging.config.fileConfig(logging_conf_path, disable_existing_loggers = False)
         else:
             logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-        logging.info("Logging has been configured.") 
+        logging.info("Logging is now configured and ready.") 
 
     def load_environment_variables(self):
+        load_dotenv()
         settings = {key: value for key, value in os.environ.items()}
-        logging.info('Environment variables are loaded.')
+        logging.info('Environment variables have been loaded.')
        
-        secret_key = os.getenv('SECRET_KEY')
         database_username = os.getenv('DATABASE_USERNAME')
+        pass_key = os.getenv('PASS_KEY')
 
-        print(f"The secret key is {secret_key}... but SHUSHHH it's a secret!")  
-        print(f"The username database is {database_username}.")
+        print(f"\nThe username for the database is {database_username}.")
+        logging.info('The username database information has been logged.')
+        print(f"The pass key is {pass_key}... but SHUSHHH it's a secret!")
+        logging.info('The pass key information has been logged.')  
     
-        mode = os.getenv('MODE')
-        if mode == 'testing':
-            print(f"The mode is testing.")
+        setting = os.getenv('SETTING')
+        if setting == 'production':
+            print(f"The setting is production.")
         else:
-            print(f"The mode is not testing. It is {mode}.")
+            print(f"The setting is not production. It is {setting}.")
+        logging.info(f'The setting has been logged.')
 
         return settings 
-
     
-    def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
+    def get_environment_variable(self, env_var: str = 'DATABASE_USERNAME'):
         return self.settings.get(env_var, None)
 
     def load_plugins(self):
@@ -57,6 +58,7 @@ class App:
             if not is_pkg:
                 module = importlib.import_module(f'{plugins_package}.{plugin_name}')
                 self.plugins[plugin_name] = module.execute()
+#looking through all the plugins and seeing what is not found.. only the plugins that are found are executed 
 
     def execute_command(self, command_name, num1, num2):
         if command_name in self.plugins:
@@ -64,19 +66,18 @@ class App:
         else:
             raise ValueError(f"Command '{command_name}' is not found.")
 
-
-    def register_plugin_commands(self, plugin_module, plugin_name):
+#could remove this bottom code portion to simplify design and functionality 
+''' def register_plugin_commands(self, plugin_module, plugin_name):
         for item_name in dir(plugin_module):
             item = getattr(plugin_module, item_name)
             if isinstance(item, type) and issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)) and item is not (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand):
                 self.command_handler.register_command(plugin_name, item())
                 logging.info(f"Command '{plugin_name}' from plugin '{plugin_name}' registered.")
-
-
-#new code... similar logic different code 
+'''
+   
     def start(self):
         self.load_plugins()
-        print("Type 'exit' to exit the program. Format the commands as: <number1> <number2> <command>. \nPossible commands are: 'greet', 'exit', 'add', 'subtract', 'multiply', 'divide'.")
+        print("\nType 'exit' to exit the program. Format the commands as: <number1> <number2> <command>. \nPossible commands are: 'greet', 'exit', 'add', 'subtract', 'multiply', 'divide'.")
         logging.info('Program has started.')
         
         calc = Calculator()
@@ -109,30 +110,16 @@ class App:
 
             if len(input_parts) == 1:
                 input_command = input_parts[0]
-                if input_command.lower() not in ['greet', 'exit', 'add', 'subtract', 'multiply', 'divide']:
+                if input_command.lower() not in ['greet', 'exit', 'menu', 'add', 'subtract', 'multiply', 'divide']:
                     print(f"There is no such command as: {input_command}.")
                     logging.error('User has inputted an unknown command.')
+                elif input_command.lower() == 'menu':
+                    input_command.execute()
+                    print('Menu')
+                    logging.info('Menu command has been executed.')
                 elif input_command.lower() == 'exit':
                     logging.info('System will exit.')
                     raise SystemExit('The system will now be exiting...Bye!!!')
                 elif input_command.lower() == 'greet':
                     print('Hello, Professor! Welcome to my calculator.')
                     logging.info('Greetings prompted.')
-                
-
-'''           
-    def load_plugins(self):
-        plugins_package = 'app.plugins' 
-        for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_package.replace('.', '/')]):
-            if not is_pkg:
-                module = importlib.import_module(f'{plugins_package}.{plugin_name}')
-                self.plugins[plugin_name] = module.execute()
-
-        for item_name in dir(plugin_module):
-                    item = getattr(plugin_module, item_name)
-                    try:
-                        if issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)):  
-                            self.command_handler.register_command(plugin_name, item())
-                    except TypeError:
-                        continue   
-'''
