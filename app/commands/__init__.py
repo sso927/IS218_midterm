@@ -38,6 +38,8 @@ class DivideCommand():
         self.num2 = num2
 
     def execute(self):
+        if self.num2 == 0 :
+            raise ValueError("Cannot divide by zero. Try again.")
         return self.num1/self.num2 
     
 

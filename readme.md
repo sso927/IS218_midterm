@@ -13,3 +13,6 @@ REPL
 operations --> plugins 
 to connect:
 from folder name.file name import class name 
+
+
+if video is short, include tutorial on how to install program from github link 

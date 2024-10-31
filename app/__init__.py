@@ -5,14 +5,16 @@ from app.commands import SubtractCommand
 from app.commands import MultiplyCommand
 from app.commands import DivideCommand
 
+from calculator.calculator import Calculator
+
 from dotenv import load_dotenv
 import logging
 import logging.config
 import os 
 
-class App: #all of the environment variable things 
+class App:   
     def __init__(self): 
-        self.command_handler = CommandHandler()
+        self.command_handler = Calculator()
         os.makedirs('logs', exist_ok = True)
         self.configure_logging()
         load_dotenv()
@@ -25,24 +27,25 @@ class App: #all of the environment variable things
             logging.config.fileConfig(logging_conf_path, disable_existing_loggers = False)
         else:
             logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-        logging.info("Logging configured.") #you can change the log message 
+        logging.info("Logging has been configured.") 
 
     def load_environment_variables(self):
         settings = {key: value for key, value in os.environ.items()}
-        logging.info('Environment variables have been loaded.')
+        logging.info('Environment variables are loaded.')
        
         secret_key = os.getenv('SECRET_KEY')
         database_username = os.getenv('DATABASE_USERNAME')
-        mode = os.getenv('testing')
-            if mode == 'testing':
-            #blah blah 
 
-        print(f"Secret Key: {secret_key}") #you can change the log message 
-        print(f"Database Username: {database_username}")
+        print(f"The secret key is {secret_key}... but SHUSHHH it's a secret!")  
+        print(f"The username database is {database_username}.")
+    
+        mode = os.getenv('MODE')
+        if mode == 'testing':
+            print(f"The mode is testing.")
+        else:
+            print(f"The mode is not testing. It is {mode}.")
 
         return settings 
-    
-    #mode = testing
     
     #keep this function 
     def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
@@ -80,6 +83,8 @@ class App: #all of the environment variable things
         print("Type 'exit' to exit the program. Format the commands as: <number1> <number2> <command>. \nPossible commands are: 'greet', 'exit', 'add', 'subtract', 'multiply', 'divide'.")
         logging.info('Program has started.')
         
+        calc = Calculator()
+
         while True:  
             whole_input = input(">>> ").strip()
             input_parts = whole_input.split()
@@ -89,7 +94,7 @@ class App: #all of the environment variable things
                 input_functionCommand = input_parts[2]
 
                 if input_functionCommand.lower() == ['add', 'subtract', 'multiply', 'divide']:
-                    self.command_handler.execute_command(input_functionCommand, *input_numbers)
+                    calc.execute_command(input_functionCommand, *input_numbers)
                 else:
                     print(f'User did not input a valid command. Try again.')
                     logging.error('Invalid arithemetic command.')
@@ -102,7 +107,7 @@ class App: #all of the environment variable things
                     print(f"There is no such command as: {input_command}.")
                     logging.error('User has inputted an unknown command.')
                 else:
-                    self.command_handler.execute_command(input_functionCommand)
+                    calc.execute_command(input_functionCommand)
 
                 if input_command.lower() == 'exit':
                     logging.info('System will exit.')
