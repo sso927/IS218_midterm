@@ -13,8 +13,7 @@ class AddCommand():
 
     def execute(self):
         return self.num1 + self.num2 
-#shows the command defintion for an additioncommand 
-
+#shows the command defintion for an addition command 
     
 class SubtractCommand():
     def __init__(self, num1, num2):

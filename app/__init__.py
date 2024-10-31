@@ -94,6 +94,7 @@ class App:
                     if input_functionCommand in ['add', 'subtract', 'multiply', 'divide']:
                         result = getattr(calc, input_functionCommand)(num1, num2)
                         print('The result is ',result)
+                        logging.info("Function performed properly. Yay!")
                     else:
                         print(f'User did not input a valid command. Try again.')
                         logging.error('Invalid arithemetic command.')
@@ -108,16 +109,15 @@ class App:
 
             if len(input_parts) == 1:
                 input_command = input_parts[0]
-
                 if input_command.lower() not in ['greet', 'exit', 'add', 'subtract', 'multiply', 'divide']:
                     print(f"There is no such command as: {input_command}.")
                     logging.error('User has inputted an unknown command.')
                 elif input_command.lower() == 'exit':
                     logging.info('System will exit.')
-                    raise SystemExit('Exiting.')
+                    raise SystemExit('The system will now be exiting...Bye!!!')
                 elif input_command.lower() == 'greet':
-                    print('Hello')
-                    logging.info('Greet)')
+                    print('Hello, Professor! Welcome to my calculator.')
+                    logging.info('Greetings prompted.')
                 
 
 '''           

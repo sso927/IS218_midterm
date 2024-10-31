@@ -1,4 +1,26 @@
-from app.commands import AddCommand
+from app.plugins.add import execute as addplugin
+from app.plugins.subtract import execute as subtractplugin
+from app.plugins.multiply import execute as multiplyplugin
+from app.plugins.divide import execute as divideplugin
+
+class Calculator:
+    def __init__(self):
+        pass
+    
+    def add(self, a, b):
+        return addplugin(a,b)
+
+    def subtract(self, a, b):
+        return subtractplugin(a,b)
+    
+    def multiply(self, a, b):
+        return multiplyplugin(a,b)
+    
+    def divide(self, a, b):
+        return divideplugin(a,b)
+    
+
+'''from app.commands import AddCommand
 from app.commands import SubtractCommand
 from app.commands import MultiplyCommand
 from app.commands import DivideCommand
@@ -9,7 +31,7 @@ class Calculator:
     def __init__(self):
         pass
 
-    #provides methods and creats an instance of the AddCommand class to execute it.. the command.execute() calls the method that executes the specific action that encapsualtes the operation
+    #provides methods and creates an instance of the AddCommand class to execute it.. the command.execute() calls the method that executes the specific action that encapsualtes the operation
     def add(self, a,b):
         command = AddCommand(a,b)
         return command.execute()
@@ -26,3 +48,4 @@ class Calculator:
         command = DivideCommand(a,b)
         return command.execute()
     
+'''
