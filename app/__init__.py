@@ -1,9 +1,5 @@
 import pkgutil
 import importlib
-from app.commands import AddCommand
-from app.commands import SubtractCommand
-from app.commands import MultiplyCommand
-from app.commands import DivideCommand
 
 from calculator.calculator import Calculator
 
@@ -65,19 +61,10 @@ class App:
             return self.plugins[command_name](num1, num2)
         else:
             raise ValueError(f"Command '{command_name}' is not found.")
-
-#could remove this bottom code portion to simplify design and functionality 
-''' def register_plugin_commands(self, plugin_module, plugin_name):
-        for item_name in dir(plugin_module):
-            item = getattr(plugin_module, item_name)
-            if isinstance(item, type) and issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)) and item is not (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand):
-                self.command_handler.register_command(plugin_name, item())
-                logging.info(f"Command '{plugin_name}' from plugin '{plugin_name}' registered.")
-'''
-   
+        
     def start(self):
         self.load_plugins()
-        print("\nType 'exit' to exit the program. Format the commands as: <number1> <number2> <command>. \nPossible commands are: 'greet', 'exit', 'add', 'subtract', 'multiply', 'divide'.")
+        print("\nType 'exit' to exit the program. Type in 'menu' to view avaliable commands.")
         logging.info('Program has started.')
         
         calc = Calculator()
@@ -114,12 +101,22 @@ class App:
                     print(f"There is no such command as: {input_command}.")
                     logging.error('User has inputted an unknown command.')
                 elif input_command.lower() == 'menu':
-                    input_command.execute()
-                    print('Menu')
+                    from app.plugins.menu import execute as menu_execute 
+                    menu_execute()
                     logging.info('Menu command has been executed.')
                 elif input_command.lower() == 'exit':
                     logging.info('System will exit.')
                     raise SystemExit('The system will now be exiting...Bye!!!')
                 elif input_command.lower() == 'greet':
-                    print('Hello, Professor! Welcome to my calculator.')
+                    from app.plugins.greet import execute as greet_execute 
+                    greet_execute()
                     logging.info('Greetings prompted.')
+
+
+'''#could remove this bottom code portion to simplify design and functionality 
+def register_plugin_commands(self, plugin_module, plugin_name):
+        for item_name in dir(plugin_module):
+            item = getattr(plugin_module, item_name)
+            if isinstance(item, type) and issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)) and item is not (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand):
+                self.command_handler.register_command(plugin_name, item())
+                logging.info(f"Command '{plugin_name}' from plugin '{plugin_name}' registered.")'''
