@@ -15,14 +15,14 @@ class Calculator:
         return command.execute()
     
     def subtract(self, a,b):
-        command = AddCommand(a,b)
+        command = SubtractCommand(a,b)
         return command.execute()
     
     def multiply(self, a,b):
-        command = AddCommand(a,b)
+        command = MultiplyCommand(a,b)
         return command.execute()
     
     def divide(self, a,b):
-        command = AddCommand(a,b)
+        command = DivideCommand(a,b)
         return command.execute()
     
