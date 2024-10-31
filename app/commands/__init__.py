@@ -30,6 +30,10 @@ class MultiplyCommand():
         self.num2 = num2
 
     def execute(self):
+        if not isinstance(self.num1, (int,float)):
+            raise TypeError('The operands must be numbers.')
+        if not isinstance(self.num2, (int, float)):
+            raise TypeError('The operands must be numbers.')
         return self.num1 * self.num2 
     
     
@@ -46,9 +50,12 @@ class DivideCommand():
 
 class MenuCommand():
     def execute(self):
-        print(f"The avaliable plugin commands are as follows: add, subtract, multiply, divide, greet, exit, and menu. To utilize these commands, simply format your input as either <number 1> <number 2> <command> or just the <command>, depending on what you want the program to do.")
-
+        menu = "The avaliable plugin commands are as follows: add, subtract, multiply, divide, greet, exit, and menu. To utilize these commands, simply format your input as either <number 1> <number 2> <command> or just the <command>, depending on what you want the program to do."
+        print(menu)
+        return menu  
 
 class GreetCommand():
     def execute(self):
-        print(f"Greetings! Hello, Professor! Welcome to my calculator program.")
+        greeting = "Greetings! Hello, Professor! Welcome to my calculator program."
+        print(greeting)
+        return greeting 

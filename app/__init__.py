@@ -111,12 +111,3 @@ class App:
                     from app.plugins.greet import execute as greet_execute 
                     greet_execute()
                     logging.info('Greetings prompted.')
-
-
-'''#could remove this bottom code portion to simplify design and functionality 
-def register_plugin_commands(self, plugin_module, plugin_name):
-        for item_name in dir(plugin_module):
-            item = getattr(plugin_module, item_name)
-            if isinstance(item, type) and issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)) and item is not (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand):
-                self.command_handler.register_command(plugin_name, item())
-                logging.info(f"Command '{plugin_name}' from plugin '{plugin_name}' registered.")'''
