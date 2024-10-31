@@ -58,15 +58,6 @@ class App:
                 module = importlib.import_module(f'{plugins_package}.{plugin_name}')
                 self.plugins[plugin_name] = module.execute()
 
-'''  for item_name in dir(plugin_module):
-                    item = getattr(plugin_module, item_name)
-                    try:
-                        if issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)):  
-                            self.command_handler.register_command(plugin_name, item())
-                    except TypeError:
-                        continue   
-'''
-
     def execute_command(self, command_name, num1, num2):
         if command_name in self.plugins:
             return self.plugins[command_name](num1, num2)
@@ -95,15 +86,21 @@ class App:
             input_parts = whole_input.split()
 
             if len(input_parts) == 3:
-                input_numbers = input_parts[:2]
-                input_functionCommand = input_parts[2]
+                try: 
+                    num1 = float(input_parts[0])
+                    num2 = float(input_parts[1])
+                    input_functionCommand = input_parts[2].lower()
 
-                if input_functionCommand.lower() == ['add', 'subtract', 'multiply', 'divide']:
-                    calc.execute_command(input_functionCommand, *input_numbers)
-                else:
-                    print(f'User did not input a valid command. Try again.')
-                    logging.error('Invalid arithemetic command.')
-                continue 
+                    if input_functionCommand in ['add', 'subtract', 'multiply', 'divide']:
+                        result = getattr(calc, input_functionCommand)(num1, num2)
+                        print(result)
+                    else:
+                        print(f'User did not input a valid command. Try again.')
+                        logging.error('Invalid arithemetic command.')
+                except ValueError:
+                    print(f"User inputted invalid numbers. Please put in valid numbers.")
+                    logging.error("ValueError from user inputting invalid numbers.")
+                continue  
             
             if len(input_parts) == 1:
                 input_command = input_parts[0]
@@ -117,3 +114,21 @@ class App:
                 if input_command.lower() == 'exit':
                     logging.info('System will exit.')
                     raise SystemExit('Exiting.')
+                
+
+'''           
+    def load_plugins(self):
+        plugins_package = 'app.plugins' 
+        for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_package.replace('.', '/')]):
+            if not is_pkg:
+                module = importlib.import_module(f'{plugins_package}.{plugin_name}')
+                self.plugins[plugin_name] = module.execute()
+
+        for item_name in dir(plugin_module):
+                    item = getattr(plugin_module, item_name)
+                    try:
+                        if issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)):  
+                            self.command_handler.register_command(plugin_name, item())
+                    except TypeError:
+                        continue   
+'''
