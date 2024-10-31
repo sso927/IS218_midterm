@@ -93,27 +93,31 @@ class App:
 
                     if input_functionCommand in ['add', 'subtract', 'multiply', 'divide']:
                         result = getattr(calc, input_functionCommand)(num1, num2)
-                        print(result)
+                        print('The result is ',result)
                     else:
                         print(f'User did not input a valid command. Try again.')
                         logging.error('Invalid arithemetic command.')
-                except ValueError:
-                    print(f"User inputted invalid numbers. Please put in valid numbers.")
+                except ValueError as e:
+                    print(f"Error: You put in invalid numbers. Please try again.")
                     logging.error("ValueError from user inputting invalid numbers.")
+                except ZeroDivisionError as e:
+                    print(f"Error: You cannot divide by zero. Please try again.")
+                    logging.error("ZeroDivisionError from user inputting invalid numbers.")
                 continue  
-            
+            #e is a variable name for the exceptino that is being caught during the except portion of the code... e is a common name 
+
             if len(input_parts) == 1:
                 input_command = input_parts[0]
 
                 if input_command.lower() not in ['greet', 'exit', 'add', 'subtract', 'multiply', 'divide']:
                     print(f"There is no such command as: {input_command}.")
                     logging.error('User has inputted an unknown command.')
-                else:
-                    calc.execute_command(input_functionCommand)
-
-                if input_command.lower() == 'exit':
+                elif input_command.lower() == 'exit':
                     logging.info('System will exit.')
                     raise SystemExit('Exiting.')
+                elif input_command.lower() == 'greet':
+                    print('Hello')
+                    logging.info('Greet)')
                 
 
 '''           

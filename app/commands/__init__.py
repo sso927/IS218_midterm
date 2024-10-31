@@ -41,6 +41,6 @@ class DivideCommand():
 
     def execute(self):
         if self.num2 == 0 :
-            raise ValueError("Cannot divide by zero. Try again.")
+            raise ZeroDivisionError("cannot divide by zero...try again!")
         return self.num1/self.num2 
     
