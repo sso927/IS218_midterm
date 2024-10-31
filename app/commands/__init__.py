@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod 
-#contains defintion of the command classes 
+#contains defintion of the command classes to specific operations 
 
 class Command(ABC):
     @abstractmethod 
@@ -13,7 +13,8 @@ class AddCommand():
 
     def execute(self):
         return self.num1 + self.num2 
-    
+#shows the command defintion for an additioncommand 
+
     
 class SubtractCommand():
     def __init__(self, num1, num2):
