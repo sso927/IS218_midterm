@@ -46,33 +46,38 @@ class App:
             print(f"The mode is not testing. It is {mode}.")
 
         return settings 
+
     
-    #keep this function 
     def get_environment_variable(self, env_var: str = 'ENVIRONMENT'):
         return self.settings.get(env_var, None)
 
     def load_plugins(self):
-        plugins_package = 'app.plugins' #can change the name if you want 
+        plugins_package = 'app.plugins' 
         for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_package.replace('.', '/')]):
-            if is_pkg: 
-                plugin_module = importlib.import_module(f'{plugins_package}.{plugin_name}')
-                logging.info('Plugins have been loaded.') #change log messages 
+            if not is_pkg:
+                module = importlib.import_module(f'{plugins_package}.{plugin_name}')
+                self.plugins[plugin_name] = module.execute()
 
-                for item_name in dir(plugin_module):
+'''  for item_name in dir(plugin_module):
                     item = getattr(plugin_module, item_name)
                     try:
-                        if issubclass(item, (Command)):  
+                        if issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)):  
                             self.command_handler.register_command(plugin_name, item())
                     except TypeError:
                         continue   
-#know how to use the code/understand 
-#add in your own plugins 
-#if you can't change your code, don't know, you can play around with the code and structure (as long as you meet the requirements + commits) 
+'''
+
+    def execute_command(self, command_name, num1, num2):
+        if command_name in self.plugins:
+            return self.plugins[command_name](num1, num2)
+        else:
+            raise ValueError(f"Command '{command_name}' is not found.")
+
 
     def register_plugin_commands(self, plugin_module, plugin_name):
         for item_name in dir(plugin_module):
             item = getattr(plugin_module, item_name)
-            if isinstance(item, type) and issubclass(item, Command) and item is not Command:
+            if isinstance(item, type) and issubclass(item, (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand)) and item is not (AddCommand, SubtractCommand, MultiplyCommand, DivideCommand):
                 self.command_handler.register_command(plugin_name, item())
                 logging.info(f"Command '{plugin_name}' from plugin '{plugin_name}' registered.")
 

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod 
+#contains defintion of the command classes 
 
 class Command(ABC):
     @abstractmethod 
@@ -42,7 +43,3 @@ class DivideCommand():
             raise ValueError("Cannot divide by zero. Try again.")
         return self.num1/self.num2 
     
-
-class GreetCommand():
-    def __init__(self)
-        

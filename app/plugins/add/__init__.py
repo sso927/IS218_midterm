@@ -1,5 +1,5 @@
-from decimal import Decimal 
-from decimal import InvalidOperation 
 from app.commands import AddCommand
-import logging 
 
+def execute(num1, num2):
+    command = AddCommand(num1, num2)
+    return command.execute()
