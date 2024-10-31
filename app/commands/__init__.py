@@ -51,4 +51,4 @@ class MenuCommand():
 
 class GreetCommand():
     def execute(self):
-        print(f"Greetings! Hello, Professor! Welcome to my calculator program :)')
+        print(f"Greetings! Hello, Professor! Welcome to my calculator program.")
