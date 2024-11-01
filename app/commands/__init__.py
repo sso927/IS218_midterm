@@ -49,7 +49,6 @@ class MultiplyCommand():
         history.log_history(self.num1, self.num2, 'multiply', answer)
         return answer
     
-    
 class DivideCommand():
     def __init__(self, num1, num2):
         self.num1 = num1 
@@ -58,7 +57,7 @@ class DivideCommand():
     def execute(self):
         if self.num2 == 0 :
             raise ZeroDivisionError()
-        answer = self.num1 + self.num2
+        answer = self.num1 / self.num2
         history.log_history(self.num1, self.num2, 'divide', answer)
         return answer
     

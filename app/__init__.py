@@ -2,6 +2,7 @@ import pkgutil
 import importlib
 
 from calculator.calculator import Calculator
+from history import HistoryCommand
 
 from dotenv import load_dotenv
 import logging
@@ -14,6 +15,7 @@ class App:
         self.configure_logging()
         self.settings = self.load_environment_variables()
         self.settings.setdefault('DATABASE_USERNAME','PASS_KEY')
+        self.history = HistoryCommand()
 
     def configure_logging(self):
         logging_conf_path = 'logging.conf'
@@ -84,12 +86,17 @@ class App:
                         print('The result is ',result)
                         if input_functionCommand == 'add':
                             logging.info("Addition Command performed properly. Yay!")
+                            self.history.log_history(num1, num2, 'add', result)
                         elif input_functionCommand == 'subtract':
                             logging.info("Subtraction Command performed properly. Yay!")
+                            self.history.log_history(num1, num2, 'subtract', result)
                         elif input_functionCommand == 'multiply':
                             logging.info("Multiply Command performed properly. Yay!")
+                            self.history.log_history(num1, num2, 'multiply', result)
                         elif input_functionCommand == 'divide':
                             logging.info("Divide Command performed properly. Yay!")
+                            self.history.log_history(num1, num2, 'divide', result)
+
                     else:
                         print(f'User did not input a valid command. Try again.')
                         logging.error('Invalid arithemetic command.')

@@ -10,7 +10,6 @@ dataFrame = pd.read_csv('data/history.csv')
 class HistoryCommand:
     def __init__(self, file = 'data/history.csv'):
         self.file = file 
-        self.history_list = []
         self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
         self.load_history()
 
@@ -23,12 +22,13 @@ class HistoryCommand:
             logging.error('File has been found and cannot be loaded.')
 
     def log_history(self, num1, num2, operation, result):
-        self.history_list.append([num1, num2, operation, result])
-        self.history_df = pd.DataFrame(self.history_list, columns=['number 1', 'number 2', 'operation', 'result'])
-
+        user_entry = pd.DataFrame([[num1, num2, operation, result]], columns=['number 1', 'number 2', 'operation', 'result'])
+        self.history_df = pd.concat([self.history_df, user_entry], ignore_index = True)
+        self.save_history()
+         
 
     def save_history(self, file):
-        self.history.to_csv(file, index = False)
+        self.history_df.to_csv(file, index = False)
 
     def retrieve_history(self):
-        return self.history 
+        return self.history_df
