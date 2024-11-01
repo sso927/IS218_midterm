@@ -1,8 +1,5 @@
 from abc import ABC, abstractmethod 
-import logging 
-import logging.config
 from history import HistoryCommand
-#contains defintion of the command classes to specific operations 
 
 history = HistoryCommand()
 

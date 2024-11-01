@@ -20,7 +20,7 @@ class HistoryCommand:
                 self.history_df = pd.read_csv(self.file)
                 logging.info('There is history in the csv file.')
            
-        else:  
+        else: #file literally doesn't exist 
             self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
             print(f'File not found. It will be initialized with the defaults.')
             logging.error('File has not been found and cannot be loaded.')
