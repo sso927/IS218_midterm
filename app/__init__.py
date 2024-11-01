@@ -49,23 +49,16 @@ class App:
 
         return settings 
     
-    def get_environment_variable(self, env_var: str = 'DATABASE_USERNAME'):
-        return self.settings.get(env_var, None)
-
     def load_plugins(self):
         plugins_package = 'app.plugins' 
         for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_package.replace('.', '/')]):
             if not is_pkg:
-                module = importlib.import_module(f'{plugins_package}.{plugin_name}')
-                self.plugins[plugin_name] = module.execute()
-#looking through all the plugins and seeing what is not found.. only the plugins that are found are executed 
+                try:
+                    module = importlib.import_module(f'{plugins_package}.{plugin_name}')
+                    logging.info(f'Loading plugins: {module}')
+                except Exception as e:
+                    logging.error(f'Failed to load plugins: {e}')
 
-    def execute_command(self, command_name, num1, num2):
-        if command_name in self.plugins:
-            return self.plugins[command_name](num1, num2)
-        else:
-            raise ValueError(f"Command '{command_name}' is not found.")
-        
     def start(self):
         self.load_plugins()
         print("\nType 'exit' to exit the program. Type in 'menu' to view avaliable commands.")
