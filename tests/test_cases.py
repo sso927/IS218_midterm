@@ -146,4 +146,20 @@ def test_case_log_history():
 
  
 
+    
+def test_case_clear_history():
+    test_file = 'data/history.csv'
+    if os.path.exists(test_file):
+        os.remove(test_file)
 
+    command = HistoryCommand(file= test_file)    
+    command.log_history(12, 4, 'add', 16)
+    command.log_history(300, 100, 'subtract', 200)
+
+    history_status = command.retrieve_history()
+    assert not history_status.empty 
+
+    command.clear_history()
+
+    history_new_status = command.retrieve_history()
+    assert history_new_status.empty 
