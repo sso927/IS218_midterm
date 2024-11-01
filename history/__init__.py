@@ -34,4 +34,4 @@ class HistoryCommand:
 
     def clear_history(self):
         self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
-        self.save_history()
+        self.save_history(self.file)

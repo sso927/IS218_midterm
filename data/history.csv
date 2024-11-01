@@ -1,11 +1,1 @@
-#when user exits the program, everything saves in the history ,number 1,number 2,operation,result
-#create new plugin called, for users to check their history ,,,,
-#pandas loads and saves to csv file ,,,,,
-#you put the code in another file --> have it read from the history.csv file ,,,,,
-,,3.0,4.0,add,7.0
-,,12.0,2.0,divide,6.0
-,,3.0,4.0,add,7.0
-,,3.0,4.0,add,7.0
-,,3.0,4.0,add,7.0
-,,3.0,4.0,add,7.0
-,,30.0,30.0,add,60.0
+number 1,number 2,operation,result
