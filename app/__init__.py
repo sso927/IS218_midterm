@@ -109,9 +109,10 @@ class App:
                 continue  
             #e is a variable name for the exceptino that is being caught during the except portion of the code... e is a common name 
 
+
             if len(input_parts) == 1:
                 input_command = input_parts[0]
-                if input_command.lower() not in ['greet', 'exit', 'menu', 'add', 'subtract', 'multiply', 'divide']:
+                if input_command.lower() not in ['greet', 'exit', 'menu', 'add', 'subtract', 'multiply', 'divide', 'history', 'clear']:
                     print(f"There is no such command as: {input_command}.")
                     logging.error('User has inputted an unknown command.')
                 elif input_command.lower() == 'menu':
@@ -125,3 +126,14 @@ class App:
                     from app.plugins.greet import execute as greet_execute 
                     greet_execute()
                     logging.info('Greetings prompted.')
+                elif input_command.lower() == 'history':
+                    history_df = self.history.retrieve_history()
+                    if history_df.empty:
+                        print('There is no history.')
+                    else: 
+                        print(history_df)
+                elif input_command.lower() == 'clear':
+                    self.history.clear_history()
+                    print('History has been cleared.')
+                else:
+                    print(f'Unknown command.')
