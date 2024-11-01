@@ -12,13 +12,18 @@ class HistoryCommand:
 
     def load_history(self):
         if os.path.exists(self.file):
+            if os.stat(self.file).st_size == 0:
+                print(f'The file is empty.')
+                self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
+                self.save_history()
+            '''
             self.history_df = pd.read_csv(self.file)
 
             if self.history_df.empty:
                 print(f'The CSV file is empty. It will be initialized with the defaults.')
                 logging.error('There is an empty CSV file.')
                 self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
-        
+            '''
         else:
             self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
             print(f'File not found. It will be initialized with the defaults.')
@@ -33,7 +38,7 @@ class HistoryCommand:
         }
 
         self.history.append(log_format)
-        print(f'Input has been logged.')
+        logging.info('Calculations have been logged.')
 
         self.history_df= pd.DataFrame(self.history)
         self.save_history()
@@ -45,6 +50,7 @@ class HistoryCommand:
         return self.history_df
 
     def clear_history(self):
+        self.history = []
         self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
         self.save_history()
 
