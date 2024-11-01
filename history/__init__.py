@@ -11,20 +11,17 @@ class HistoryCommand:
 
 
     def load_history(self):
-        if os.path.exists(self.file):
-            if os.stat(self.file).st_size == 0:
-                print(f'The file is empty.')
+        if os.path.exists(self.file):             
+            if os.stat(self.file).st_size == 0: #checks if file is completely empty and will make headers
+                logging.info('There is no history in the csv file.')
                 self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
                 self.save_history()
-            '''
-            self.history_df = pd.read_csv(self.file)
-
-            if self.history_df.empty:
-                print(f'The CSV file is empty. It will be initialized with the defaults.')
-                logging.error('There is an empty CSV file.')
-                self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
-            '''
-        else:
+           
+            else: #saying that there is previous info in the file
+                self.history_df = pd.read_csv(self.file)
+                logging.info('There is history in the csv file.')
+           
+        else: #file literally doesn't exist 
             self.history_df = pd.DataFrame(columns=['number 1', 'number 2', 'operation', 'result'])
             print(f'File not found. It will be initialized with the defaults.')
             logging.error('File has not been found and cannot be loaded.')

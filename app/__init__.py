@@ -33,6 +33,8 @@ class App:
         database_username = os.getenv('DATABASE_USERNAME')
         pass_key = os.getenv('PASS_KEY')
 
+        print(f"\nHello, World! Welcome to my calculator program :D \nThere is some important information below. Thank you for being here!")
+
         print(f"\nThe username for the database is {database_username}.")
         logging.info('The username database information has been logged.')
         print(f"The pass key is {pass_key}... but SHUSHHH it's a secret!")

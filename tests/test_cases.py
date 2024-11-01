@@ -17,9 +17,8 @@ def test_case_greet_command():
 def test_case_menu_command():
     command = MenuCommand()
     result = command.execute()
-    assert result == "The avaliable plugin commands are as follows: add, subtract, multiply, divide, greet, exit, and menu. To utilize these commands, simply format your input as either <number 1> <number 2> <command> or just the <command>, depending on what you want the program to do."
-
-
+    assert result == "The avaliable plugin commands are as follows: add, subtract, multiply, divide, greet, exit, and menu. To utilize these commands, simply format your input as either <number 1> <number 2> <command> or just the <command>, depending on what you want the program to do.\nView your calculation history by inputting 'history' or 'clear'."
+    
 def test_case1_add_command():
     command = AddCommand(10, 2)
     result = command.execute()
