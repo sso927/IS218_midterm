@@ -102,7 +102,6 @@ class App:
                     print(f"Error: You cannot divide by zero. Please try again.")
                     logging.error("ZeroDivisionError from user inputting invalid numbers.")
                 continue  
-            #e is a variable name for the exceptino that is being caught during the except portion of the code... e is a common name 
 
 
             if len(input_parts) == 1:
