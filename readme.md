@@ -2,7 +2,7 @@
 #### Sharon Oh 
 This midterm is for the course IS218 during the Fall 2024 semester at the New Jersey Institute of Technology. The midterm project requires us to develop an advanced calculator application using Python, Ubuntu, WSL, GitHub, and other knowledge we acquired from the previous lectures during the course. 
 
-#### The video that demos this calculator application is here.
+#### The [video](https://youtu.be/fxvjwAV1DEQ?si=2qjDXok3vbyaW9eG) that demos this calculator application is here.   
 
 ## Details and Setup
 During the initial stages of the project, I started off with setting up the repo and downloading the necessary packages to ensure I had everything prepared. I first created the repository in GitHub and connected it to my local repository so that all my changes would sync up to the GitHub repo. I set up the necessary virtual environments after downloading them and activated it using "source my_env/bin/activate" so that the program would be able to run on this particular environment. I downloaded necessary packages/libraries/test such as pandas, pytest, etc to prepare the program for the different functions that will utilize those external downloads. At the initial stages, I made sure to freeze the requirements and transfer fundamental configuration files such as the logging.conf, .pylintrc, and pytest.ini files to name a few. Doing all of these smaller steps set up the program so that I could then work on the REPL interface and the plugin system.  
